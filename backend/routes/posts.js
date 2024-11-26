@@ -1,46 +1,91 @@
 const router = require("express").Router();
-//IMPORT USER MODEL
-const User = require("../models/user.js");
-const bcrypt = require("bcrypt");
-const Post = require("../models/post.js")
+const Post = require("../models/post.js");
 
 //CREATE POST
-router.post("/:id", async (req, res) => {
-  const newPost = new Post(req.body)
-  
+router.post("/", async (req, res) => {
+  const newPost = new Post(req.body);
+  try {
+    const savedPost = await newPost.save();
+    res.status(200).json(savedPost);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
-//UPDATE POST
-router.delete("/:id", async (req, res) => {
-  if (req.body.userId === req.params.id) {
-    try {
-      const user = await User.findById(req.params.id)
+// //UPDATE POST
+router.put("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post.username === req.body.username) {
       try {
-        await Post.deleteMany({username:user.username})
-        await User.findByIdAndDelete(req.params.id);
-        res.status(200).json("User has been deleted");
+        const updatedPost = await Post.findByIdAndUpdate(
+          req.params.id,
+          {
+            $set: req.body,
+          },
+          { new: true }
+        );
+        res.status(200).json(updatedPost);
       } catch (error) {
         res.status(500).json(error);
       }
-    } catch (error) {
-      res.status(404).json("User not found.")
+    } else {
+      res.status(401).json("You can only update your post.");
     }
-  } else {
-    res.status(401).json("You can only delete your account.");
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
 //DELETE POST
+router.delete("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (post.username === req.body.username) {
+      try {
+        await Post.findByIdAndDelete(req.params.id);
+        res.status(200).json("Post has been deleted.");
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    } else {
+      res.status(401).json("You can only delete your post.");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 //GET POST
-router.get("/:id", async(req, res)=>{
+router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
-    const {password, ...others} = user._doc
-    res.status(200).json(others)
+    const post = await Post.findById(req.params.id)
+    res.status(200).json(post);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json(error);
   }
-})
+});
+
+//GET ALL POSTS
+router.get("/", async (req, res) => {
+  const username = req.query.user
+  const catName = req.query.cat
+  try {
+    let posts;
+    if (username) {
+      posts = await Post.find({username})
+    } else if (catName) {
+      posts = await Post.find({categories:{
+        $in:[catName]
+      }})
+    } else {
+      posts = await Post.find()
+    }
+    res.status(200).json(posts)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 
 module.exports = router;
