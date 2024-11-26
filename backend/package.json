@@ -11,10 +11,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "chai-http": "^5.1.1",
+    "mocha": "^10.8.2"
+  }
 }
