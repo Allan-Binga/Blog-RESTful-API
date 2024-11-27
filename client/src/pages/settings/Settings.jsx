@@ -29,7 +29,7 @@ export default function Settings() {
           <label>Username</label>
           <input type="text" placeholder="Safak" name="name" />
           <label>Email</label>
-          <input type="email" placeholder="safak@gmail.com" name="email" />
+          <input type="email" placeholder="email" name="email" />
           <label>Password</label>
           <input type="password" placeholder="Password" name="password" />
           <button className="settingsSubmitButton" type="submit">
