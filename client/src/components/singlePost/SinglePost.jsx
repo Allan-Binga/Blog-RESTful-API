@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
 import "./singlePost.css";
 
 export default function SinglePost() {
+  const location = useLocation();
+  console.log(location);
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
