@@ -8,6 +8,7 @@ const postRoute = require("./routes/posts.js");
 const catRoute = require("./routes/categories.js");
 const multer = require("multer");
 
+//testing
 dotenv.config();
 app.use(express.json());
 
