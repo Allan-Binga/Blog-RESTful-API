@@ -10,6 +10,10 @@ jobs:
     runs-on: Ubuntu-24.04
 
     steps:
+      - name: CD into backend.
+        run: |
+          cd backend
+          
       - name: Build Docker image
         run: |
           docker build -t allanbinga/backend-blog:v1.0.0 .
