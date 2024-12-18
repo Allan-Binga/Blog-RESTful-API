@@ -1,4 +1,4 @@
-name: blog-api
+name: blog-backend-api
 
 on:
   push:
@@ -10,11 +10,11 @@ jobs:
     runs-on: Ubuntu-24.04
 
     steps:
-      - name: CD into backend.
-        run: |
-          cd backend
-          
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Build Docker image
+        working-directory: ./backend
         run: |
           docker build -t allanbinga/backend-blog:v1.0.0 .
 
@@ -23,5 +23,6 @@ jobs:
           echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_USERNAME}}" --password-stdin
 
       - name: Push image to DockerHub
+        working-directory: ./backend
         run: |
           docker push allanbinga/backend-blog:v1.0.0
