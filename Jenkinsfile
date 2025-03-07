@@ -20,18 +20,20 @@ pipeline {
         }
     
     }
-    // post {
-    //     success {
-    //         slackSend(
-    //             color: 'good',
-    //             message: 'Dependencies installed successfully.'
-    //         )
-    //     }
-    //     failure {
-    //         slackSend(
-    //             color: 'danger',
-    //             message: 'Failed to install dependencies.'
-    //         )
-    //     }
-    // }
+    post {
+        success {
+            slackSend(
+                channel: '#blogapi',
+                color: 'good',
+                message: 'Dependencies installed successfully.'
+            )
+        }
+        failure {
+            slackSend(
+                channel: '#blogapi',
+                color: 'danger',
+                message: 'Failed to install dependencies.'
+            )
+        }
+    }
 }
