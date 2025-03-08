@@ -3,10 +3,13 @@ const mongoose = require("mongoose");
 //USER SCHEMA
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    firstName: {
       type: String,
-      required: true,
-      unique: true,
+      required: false,
+    },
+    lastName: {
+      type: String,
+      required: false,
     },
     email: {
       type: String,
@@ -16,6 +19,11 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    profilePic: { type: String, default: "" },
+    bio: {
+      type: String,
+      maxlength: 300, // Limit to 300 characters
     },
   },
   { timestamps: true }

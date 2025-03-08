@@ -1,6 +1,6 @@
 const router = require("express").Router();
 //IMPORT USER MODEL
-const User = require("../models/user.js");
+const User = require("../models/users.js");
 const bcrypt = require("bcrypt");
 const Post = require("../models/post.js")
 
