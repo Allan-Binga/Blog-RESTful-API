@@ -11,14 +11,21 @@ pipeline {
                 git 'https://github.com/Allan-Binga/Blog-RESTful-API'
             }
         }
-        stage('Install Dependencies') {
+        stage('Install frontend dependencies') {
             steps {
                 dir('frontend2') {
                     sh 'npm install'
                 }
             }
         }
-    
+
+        stage('Install backend dependencies') {
+            steps {
+                dir('backend') {
+                    sh 'npm install'
+                }
+            }
+        }
     }
     post {
         success {
