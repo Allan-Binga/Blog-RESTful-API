@@ -6,7 +6,6 @@ const authRoute = require("./routes/auth.js");
 const userRoute = require("./routes/users.js");
 const postRoute = require("./routes/posts.js");
 const catRoute = require("./routes/categories.js");
-const multer = require("multer");
 
 //testing
 dotenv.config();
@@ -19,19 +18,6 @@ async function main() {
   console.log("Connected to MongoDB.");
 }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "img");
-  },
-  filename: (req, file, cb) => {
-    cb(null, "download.jpeg");
-  },
-});
-
-const upload = multer({ storage: storage });
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  res.status(200).json("File has been uploaded.");
-});
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
