@@ -69,11 +69,9 @@ const loginUser = async (req, res) => {
   try {
     // Check if user is already logged in
     if (req.cookies.blogSession) {
-      return res
-        .status(400)
-        .json({
-          message: "You are currently logged in, please logout to proceed.",
-        });
+      return res.status(400).json({
+        message: "You are currently logged in, please logout to proceed.",
+      });
     }
     const { email, password } = req.body;
 
@@ -112,5 +110,19 @@ const loginUser = async (req, res) => {
   }
 };
 
+//Logout user
+const logoutUser = async (req, res) => {
+  try {
+    //CHECK IF COOKIE SESSION EXISTS
+    if (!req.cookies || !req.cookies.blogSession) {
+      return res.status(400).json({ message: "No user is logged in." });
+    }
+    //CLEAR SESSION COOKIE
+    res.clearCookie("blogSession");
+    res.status(200).json({ message: "Logout successful." });
+  } catch (error) {
+    res.status(500).json({ error: "Error logging out." });
+  }
+};
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, logoutUser };
