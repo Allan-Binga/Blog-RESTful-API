@@ -7,6 +7,7 @@ const storage = multer.diskStorage({
     cb(null, "profilePics/"); // Save images to the 'uploads' folder
   },
   filename: function (req, file, cb) {
+    //Renaming files to avoid duplicates: x-12345.jpg
     cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
   },
 });

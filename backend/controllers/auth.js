@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const registerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
+    const profilePic = req.file ? req.file.path : null; //Image path
 
     //Check if fields exist:
     if (!firstName || !lastName || !email || !password) {
@@ -21,7 +22,8 @@ const registerUser = async (req, res) => {
     }
 
     //Validate password strength.
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
         message:
@@ -47,6 +49,7 @@ const registerUser = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
+      profilePic,
     });
 
     const savedUser = await newUser.save();
@@ -64,6 +67,14 @@ const registerUser = async (req, res) => {
 //Login registered user.
 const loginUser = async (req, res) => {
   try {
+    // Check if user is already logged in
+    if (req.cookies.blogSession) {
+      return res
+        .status(400)
+        .json({
+          message: "You are currently logged in, please logout to proceed.",
+        });
+    }
     const { email, password } = req.body;
 
     // Check if email and password are provided
