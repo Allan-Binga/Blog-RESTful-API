@@ -74,9 +74,9 @@ const updateInformation = async (req, res) => {
       { new: true, runValidators: true } // Return updated doc, run schema validators
     ).select("-password");
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    // if (!updatedUser) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
 
     return res
       .status(200)
