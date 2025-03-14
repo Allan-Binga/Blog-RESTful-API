@@ -42,6 +42,7 @@ const getSingleUser = async (req, res) => {
 //Update personal information
 const updateInformation = async (req, res) => {
   try {
+    // const { name } = req.params;
     const { name } = req.params;
     const [firstName, lastName] = name.split("-");
 
